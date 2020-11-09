@@ -51,7 +51,7 @@ quick_survey<-function(df,
   }
 
   duration_df2<-do.call("rbind", dfl)
-  quick_survey_df <- duration_df2 %>% dplyr::filter(duration_minutes > min_allowable_duration)
+  quick_survey_df <- duration_df2 %>% dplyr::filter(duration_minutes < min_allowable_duration)
   quick_survey_df <- quick_survey_df %>% dplyr::select(-c("duration_ms","durations_secs"))
   return(quick_survey_df)
 }
