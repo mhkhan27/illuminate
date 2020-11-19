@@ -5,9 +5,7 @@
 #' @param start_question_node start question node from where calculation for time duration will start (audit node is excluded)
 #' @param end_question_node end question node to where calculation for time duration will end (audit node is excluded)
 #' @param min_allowable_duration Minumum allowable duration
-#' @param audit_zipfile Audit zipe file location
-#' @param path_unzip Path for unzip
-#' @param copy_zip_to
+#' @param audit_yes output from butteR::load_audit()
 #' @return Quick survey list
 #' @export
 #'
@@ -18,17 +16,9 @@ quick_survey<-function(df,
                        start_question_node,
                        end_question_node,
                        min_allowable_duration,
-                       audit_zipfile,
-                       path_unzip,
-                       copy_zip_to){
+                       audit_yes){
 
-  audit_yes<-butteR::load_audit(data=df,
-                                path.to.zip = audit_zipfile,
-                                path.to.unzip = path_unzip,
-                                copy.zip = TRUE,
-                                path.to.copy.zip = copy_zip_to,
-                                delete.unzipped=TRUE
-  )
+
 
 
   dfl<-list()

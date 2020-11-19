@@ -11,9 +11,7 @@ quick_survey(
   start_question_node,
   end_question_node,
   min_allowable_duration,
-  audit_zipfile,
-  path_unzip,
-  copy_zip_to
+  audit_yes
 )
 }
 \arguments{
@@ -29,9 +27,7 @@ quick_survey(
 
 \item{min_allowable_duration}{Minumum allowable duration}
 
-\item{audit_zipfile}{Audit zipe file location}
-
-\item{path_unzip}{Path for unzip}
+\item{audit_yes}{output from butteR::load_audit()}
 }
 \value{
 Quick survey list
