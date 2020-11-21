@@ -4,12 +4,10 @@
 \alias{merge_kml}
 \title{Use to merge KMLs}
 \usage{
-merge_kml(input_folder, output_folder)
+merge_kml(input_folder)
 }
 \arguments{
 \item{input_folder}{Input folder from where KMLs will be merged.}
-
-\item{output_folder}{Output folder in where merged KML will be saved.}
 }
 \description{
 Use to merge KMLs
