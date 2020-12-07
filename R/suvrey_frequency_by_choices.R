@@ -22,6 +22,7 @@ integer_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"intege
 select_mutiple_from_kobo_cols <-select_mutiple_from_kobo$name
 interger_from_kobo_cols <-integer_from_kobo$name
 
+select_mutiple_from_kobo_cols<- select_mutiple_from_kobo_cols[select_mutiple_from_kobo_cols %in% names(df)]
 
 df <- df %>% dplyr::select(-select_mutiple_from_kobo_cols)
 
