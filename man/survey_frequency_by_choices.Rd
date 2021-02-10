@@ -18,7 +18,7 @@ survey_frequency_by_choices(
 
 \item{variables_to_analyze}{Vector containing all variable names to analyze and include in summary table.}
 
-\item{kobo_servey_sheet}{Output folder in where converted KMLs will be saved.The defult (NUll) will create additional table for multiple choice questions}
+\item{kobo_servey_sheet}{The defult (NUll) will create additional table for multiple choice questions [not recommended]}
 }
 \description{
 Generate Frequency Table For Each Choices
