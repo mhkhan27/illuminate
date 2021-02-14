@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r example, warning= F , message=F,include = FALSE}
+```{r example, warning= F, message=F,include = FALSE}
 library(illuminate)
 library(dplyr)
 library(sf)
@@ -30,8 +30,7 @@ illuminate is designed for making the data analysis easy and time consuming. The
 4. kml_to_shp
 5. pic_to_pdf
 6. quick_survey
-7. quick_survey
-8. simple_chi_square_test</p>
+7. simple_chi_square_test</p>
 
 ## Installation
 
@@ -40,10 +39,12 @@ You can install the development version from [GitHub](https://github.com/) with:
 ``` {r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("mhkhan27/illuminate")
-## Example
+
 ```
 
-### survey_frequency_by_questions ()
+## Functions
+
+### 1. survey_frequency_by_questions ()
 survey_frequency_by_questions() can very usefull to calculate the number of response/available data (n) for each question asked to reponsedent. You can use aggregation level/s to the function. The defult aggregation level is NULL which ideally provides the overall response count  
 
 ###### Frequency by questions (with no aggregation level)
@@ -75,7 +76,7 @@ frequency_df_with_aggregation %>% knitr::kable()
 ```
 
 
-### survey_frequency_by_choices ()
+### 2. survey_frequency_by_choices ()
 survey_frequency_by_choices() provides the count by each choice. suppose in the following example we have a dataset of 100 observation
 
 ###### Generating random dataset
@@ -114,3 +115,17 @@ fre_by_choice_with_aggregation <-illuminate::survey_frequency_by_choices(df = df
 ```{r}
 fre_by_choice_with_aggregation %>% knitr::kable() 
 ```
+
+
+### 3. merge_kml
+merge_kml() function is usefull when it comes to merge hundard of samples points received from different partners 
+
+### 4. kml_to_shp 
+Kml_to_shp() function is usefull when it comes to convert hundards of KML to ESRI Shapefile at once
+
+### 5. pic_to_pdf
+pic_to_pdf() function is usefull when it comes to convert hundards of maps (in picture format, i.e jpg,tif,jped,png) to pdf format
+
+### 6. quick_survey 
+The quick_survey() function is specifally design for flagging the surveys that has been completed less than a certain time.The function use media file (audit zip) from kobo sever which should be loaded by butteR::load_audit() function. 
+The function butteR can be found [here](github.com/zackarno/butteR)

@@ -13,8 +13,7 @@ package now have different function including-
 4.  kml\_to\_shp
 5.  pic\_to\_pdf
 6.  quick\_survey
-7.  quick\_survey
-8.  simple\_chi\_square\_test
+7.  simple\_chi\_square\_test
     </p>
 
 ## Installation
@@ -25,10 +24,11 @@ You can install the development version from
 ``` r
 # install.packages("devtools")
 devtools::install_github("mhkhan27/illuminate")
-## Example
 ```
 
-### survey\_frequency\_by\_questions ()
+## Functions
+
+### 1\. survey\_frequency\_by\_questions ()
 
 survey\_frequency\_by\_questions() can very usefull to calculate the
 number of response/available data (n) for each question asked to
@@ -74,7 +74,7 @@ frequency_df_with_aggregation %>% knitr::kable()
 |     8 |    26 |      28 |   31 |   31 |  31 |
 |     9 |    29 |      30 |   30 |   30 |  30 |
 
-### survey\_frequency\_by\_choices ()
+### 2\. survey\_frequency\_by\_choices ()
 
 survey\_frequency\_by\_choices() provides the count by each choice.
 suppose in the following example we have a dataset of 100 observation
@@ -123,3 +123,26 @@ fre_by_choice_with_aggregation %>% knitr::kable()
 | :------ | ------------: | ----------: |
 | teknaf  |             0 |          20 |
 | Ukhiya  |            10 |           0 |
+
+### 3\. merge\_kml
+
+merge\_kml() function is usefull when it comes to merge hundard of
+samples points received from different partners
+
+### 4\. kml\_to\_shp
+
+Kml\_to\_shp() function is usefull when it comes to convert hundards of
+KML to ESRI Shapefile at once
+
+### 5\. pic\_to\_pdf
+
+pic\_to\_pdf() function is usefull when it comes to convert hundards of
+maps (in picture format, i.e jpg,tif,jped,png) to pdf format
+
+### 6\. quick\_survey
+
+The quick\_survey() function is specifally design for flagging the
+surveys that has been completed less than a certain time.The function
+use media file (audit zip) from kobo sever which should be loaded by
+butteR::load\_audit() function. The function butteR can be found
+[here](github.com/zackarno/butteR)
