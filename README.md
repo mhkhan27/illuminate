@@ -19,7 +19,7 @@ package now have different function including-
 
 ## Installation
 
-You can install the the development version from
+You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -36,14 +36,16 @@ reponsedent. You can use aggregation level/s to the function. The defult
 aggregation level is NULL which ideally provides the overall response
 count
 
+###### Frequency by questions (with no aggregation level)
+
 ``` r
 # library(illuminate)
-# WITHOUT AGGREGATION
 # using air quality
 frequency_df_no_aggregation <- illuminate::survey_frequency_by_questions(df =airquality)
 ```
 
 ``` r
+
 frequency_df_no_aggregation %>% knitr::kable() 
 ```
 
@@ -51,13 +53,16 @@ frequency_df_no_aggregation %>% knitr::kable()
 | ----: | ------: | ---: | ---: | ----: | --: |
 |   116 |     146 |  153 |  153 |   153 | 153 |
 
+###### Frequency by questions (with aggregation level)
+
 ``` r
-# WITH AGGREGATION
-# using air quality
+# using air quality from base r
+
 frequency_df_with_aggregation <- illuminate::survey_frequency_by_questions(df =airquality,aggregation_level = "Month" ) 
 ```
 
 ``` r
+
 frequency_df_with_aggregation %>% knitr::kable() 
 ```
 
@@ -74,22 +79,27 @@ frequency_df_with_aggregation %>% knitr::kable()
 survey\_frequency\_by\_choices() provides the count by each choice.
 suppose in the following example we have a dataset of 100 observation
 
+###### Generating random dataset
+
 ``` r
-# Generating random dataset
+
 df_for_fre_by_choices <- data.frame(
   gender = rep(c("male","female","male",NA),10),
   upazila =rep(c("teknaf","Ukhiya"),20)
 )
  
+cols_to_analyze <- names(df_for_fre_by_choices) # column names 
 ```
 
+###### Frequency by choices (with no aggregation level)
+
 ``` r
-#WITHOUT AGGREGATION 
-cols_to_analyze <- names(df_for_fre_by_choices) # column names 
+
 fre_by_choice_no_aggregation <-illuminate::survey_frequency_by_choices(df = df_for_fre_by_choices,variables_to_analyze = cols_to_analyze)
 ```
 
 ``` r
+
 fre_by_choice_no_aggregation %>% knitr::kable() 
 ```
 
@@ -97,9 +107,10 @@ fre_by_choice_no_aggregation %>% knitr::kable()
 | ------------: | ----------: | -------------: | -------------: |
 |            10 |          20 |             20 |             20 |
 
+###### Frequency by choices (with aggregation level)
+
 ``` r
-#WITHOUT AGGREGATION 
-cols_to_analyze <- names(df_for_fre_by_choices) # column names 
+
 fre_by_choice_with_aggregation <-illuminate::survey_frequency_by_choices(df = df_for_fre_by_choices,variables_to_analyze = cols_to_analyze,aggregation_level = "upazila")
 #> Joining, by = "upazila"
 ```

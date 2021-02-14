@@ -35,7 +35,7 @@ illuminate is designed for making the data analysis easy and time consuming. The
 
 ## Installation
 
-You can install the the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` {r, eval=FALSE}
 # install.packages("devtools")
@@ -46,62 +46,68 @@ devtools::install_github("mhkhan27/illuminate")
 ### survey_frequency_by_questions ()
 survey_frequency_by_questions() can very usefull to calculate the number of response/available data (n) for each question asked to reponsedent. You can use aggregation level/s to the function. The defult aggregation level is NULL which ideally provides the overall response count  
 
+###### Frequency by questions (with no aggregation level)
 ``` {r}
 # library(illuminate)
-# WITHOUT AGGREGATION
 # using air quality
 frequency_df_no_aggregation <- illuminate::survey_frequency_by_questions(df =airquality)
 
 ```
 
 ```{r}
+
 frequency_df_no_aggregation %>% knitr::kable() 
+
 ```
 
-
+###### Frequency by questions (with aggregation level)
 ``` {r}
-# WITH AGGREGATION
-# using air quality
+# using air quality from base r
+
 frequency_df_with_aggregation <- illuminate::survey_frequency_by_questions(df =airquality,aggregation_level = "Month" ) 
 
 ```
 
 ```{r}
-frequency_df_with_aggregation %>% knitr::kable() 
-```
 
+frequency_df_with_aggregation %>% knitr::kable() 
+
+```
 
 
 ### survey_frequency_by_choices ()
 survey_frequency_by_choices() provides the count by each choice. suppose in the following example we have a dataset of 100 observation
 
+###### Generating random dataset
 ```{r}
-# Generating random dataset
+
 df_for_fre_by_choices <- data.frame(
   gender = rep(c("male","female","male",NA),10),
   upazila =rep(c("teknaf","Ukhiya"),20)
 )
  
-
+cols_to_analyze <- names(df_for_fre_by_choices) # column names 
 ```
 
-
+###### Frequency by choices (with no aggregation level)
 ```{r}
-#WITHOUT AGGREGATION 
-cols_to_analyze <- names(df_for_fre_by_choices) # column names 
+
 fre_by_choice_no_aggregation <-illuminate::survey_frequency_by_choices(df = df_for_fre_by_choices,variables_to_analyze = cols_to_analyze)
+
 ```
 
 
 ```{r}
+
 fre_by_choice_no_aggregation %>% knitr::kable() 
+
 ```
 
-
+###### Frequency by choices (with aggregation level)
 ```{r}
-#WITHOUT AGGREGATION 
-cols_to_analyze <- names(df_for_fre_by_choices) # column names 
+
 fre_by_choice_with_aggregation <-illuminate::survey_frequency_by_choices(df = df_for_fre_by_choices,variables_to_analyze = cols_to_analyze,aggregation_level = "upazila")
+
 ```
 
 
