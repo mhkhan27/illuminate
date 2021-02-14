@@ -56,7 +56,7 @@ frequency_df_no_aggregation %>% knitr::kable()
 ###### Frequency by questions (with aggregation level)
 
 ``` r
-# using air quality from base r
+# using air quality data from base r
 
 frequency_df_with_aggregation <- illuminate::survey_frequency_by_questions(df =airquality,aggregation_level = "Month" ) 
 ```
