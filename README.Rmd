@@ -77,7 +77,7 @@ frequency_df_with_aggregation %>% knitr::kable()
 
 
 ### 2. survey_frequency_by_choices ()
-survey_frequency_by_choices() provides the count by each choice. suppose in the following example we have a dataset of 100 observation
+survey_frequency_by_choices() provides the count by each choice. suppose in the following example we have a dataset of 40 observation including the  reponder gender and upazila.
 
 ###### Generating random dataset
 ```{r}
