@@ -1,9 +1,9 @@
 
 # illuminate <img src='man/figures/logo.jpg' align="right" height="64.5" />
 
-illuminate is designed for making the data analysis easy and time
+illuminate is designed for making the data analysis easy and less time
 consuming. The package is based on tidyr, dplyr, stringr packages. The
-package now have different function including-
+package now have different functions including-
 
 <p>
 
@@ -30,7 +30,7 @@ devtools::install_github("mhkhan27/illuminate")
 
 ### 1\. survey\_frequency\_by\_questions ()
 
-survey\_frequency\_by\_questions() can very usefull to calculate the
+survey\_frequency\_by\_questions() can be very usefull to calculate the
 number of response/available data (n) for each question asked to
 reponsedent. You can use aggregation level/s to the function. The defult
 aggregation level is NULL which ideally provides the overall response
@@ -40,7 +40,7 @@ count
 
 ``` r
 # library(illuminate)
-# using air quality
+# using air quality data from base R
 frequency_df_no_aggregation <- illuminate::survey_frequency_by_questions(df =airquality)
 ```
 
@@ -79,6 +79,7 @@ frequency_df_with_aggregation %>% knitr::kable()
 survey\_frequency\_by\_choices() provides the count by each choice.
 suppose in the following example we have a dataset of 40 observations
 including the reponder gender and upazila.
+survey\_frequency\_by\_choices()
 
 ###### Generating random dataset
 
@@ -127,23 +128,23 @@ fre_by_choice_with_aggregation %>% knitr::kable()
 
 ### 3\. merge\_kml
 
-merge\_kml() function is usefull when it comes to merge hundard of
+merge\_kml() function is usefull when it comes to merge hundreds of
 samples points received from different partners
 
 ### 4\. kml\_to\_shp
 
-Kml\_to\_shp() function is usefull when it comes to convert hundards of
+Kml\_to\_shp() function is usefull when it comes to convert hundreds of
 KML to ESRI Shapefile at once
 
 ### 5\. pic\_to\_pdf
 
-pic\_to\_pdf() function is usefull when it comes to convert hundards of
+pic\_to\_pdf() function is usefull when it comes to convert hundreds of
 maps (in picture format, i.e jpg,tif,jped,png) to pdf format
 
 ### 6\. quick\_survey
 
-The quick\_survey() function is specifally design for flagging the
-surveys that has been completed less than a certain time.The function
-use media file (audit zip) from kobo sever which should be loaded by
-butteR::load\_audit() function. The function butteR can be found
-[here](github.com/zackarno/butteR)
+The quick\_survey() function is specifically designed for flagging the
+surveys that has been completed less than a certain time period.The
+function uses media file (audit zip) from kobo sever which should be
+loaded by butteR::load\_audit() function. The function **butteR** can be
+found [here](github.com/zackarno/butteR)
