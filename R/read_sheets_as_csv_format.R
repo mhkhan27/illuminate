@@ -11,7 +11,7 @@ read_all_sheet_as_csv_format <- function(xlsx_file_path){
   sheet_name <- excel_sheets(xlsx_file_path)
   df_all <- list()
   for (i in sheet_name) {
-    assign(i,read_xlsx("02_inputs/01_raw_data/BGD2101_rtata.xlsx",sheet = i))
+    assign(i,read_xlsx(xlsx_file_path,sheet = i))
     df <- get(i)
     colnames(df) <- colnames(df) %>% str_replace_all("/",".")
     df_st_with <- df %>% select(starts_with("_")) %>% names()
