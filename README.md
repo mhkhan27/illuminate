@@ -14,6 +14,8 @@ package now have different functions including-
 5.  pic\_to\_pdf
 6.  quick\_survey
 7.  simple\_chi\_square\_test
+8.  read\_all\_sheet\_as\_csv\_format
+9.  outlier\_check
     </p>
 
 ## Installation
@@ -148,3 +150,13 @@ surveys that has been completed less than a certain time period.The
 function uses media file (audit zip) from kobo sever which should be
 loaded by butteR::load\_audit() function. The function **butteR** can be
 found [here](github.com/zackarno/butteR)
+
+### 7\. read\_all\_sheet\_as\_csv\_format
+
+read\_all\_sheet\_as\_csv\_format() read all the sheets of a excel file
+and then assign each sheet as individual dataset.
+
+### 8\. outlier\_check
+
+outlier\_check() is designed for checking the outliers that exist in the
+dataset.

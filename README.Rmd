@@ -30,7 +30,9 @@ illuminate is designed for making the data analysis easy and less time consuming
 4. kml_to_shp
 5. pic_to_pdf
 6. quick_survey
-7. simple_chi_square_test</p>
+7. simple_chi_square_test
+8. read_all_sheet_as_csv_format
+9. outlier_check</p>
 
 ## Installation
 
@@ -129,3 +131,9 @@ pic_to_pdf() function is usefull when it comes to convert hundreds of maps (in p
 ### 6. quick_survey 
 The quick_survey() function is specifically designed for flagging the surveys that has been completed less than a certain time period.The function uses media file (audit zip) from kobo sever which should be loaded by butteR::load_audit() function. 
 The function **butteR** can be found [here](github.com/zackarno/butteR)
+
+### 7. read_all_sheet_as_csv_format
+read_all_sheet_as_csv_format() read all the sheets of a excel file and then assign each sheet as individual dataset. 
+
+### 8. outlier_check 
+outlier_check() is designed for checking the outliers that exist in the dataset.
