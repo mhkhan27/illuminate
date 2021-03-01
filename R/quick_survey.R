@@ -12,6 +12,7 @@
 
 quick_survey<-function(df,
                        consent_column_name,
+                       audit_node,
                        uuid_col_name = "X_uuid",
                        start_question_node,
                        end_question_node,
@@ -20,12 +21,14 @@ quick_survey<-function(df,
 
 
 
-
+  retur_list <- list()
   dfl<-list()
   for (i in 1: length(audit_yes)){
     d<-audit_yes[[i]]
 
     d$node<-gsub("\\[1]","",d$node)
+    d$node<-gsub("\\[2]","",d$node)
+    d$node<-gsub("\\[3]","",d$node)
 
     start_question <- d %>% filter(node==paste0(audit_node,start_question_node)& !is.na(event)) %>%
       select(end)
@@ -44,6 +47,8 @@ quick_survey<-function(df,
   surveys_with_duration<- duration_df2
   quick_survey_df <- duration_df2 %>% dplyr::filter(duration_minutes < min_allowable_duration)
   quick_survey_df <- quick_survey_df %>% dplyr::select(-c("duration_ms","durations_secs"))
-  retur_list <- list(surveys_with_duration,quick_survey_df)
-  return(retur_list)
+
+  retur_list[["surveys_with_duration"]] <- surveys_with_duration
+  retur_list[["quick_survey_df"]] <- quick_survey_df
+  list2env(retur_list,.GlobalEnv)
 }
