@@ -50,7 +50,7 @@ outlier_checks <- list()
     df[[x]] <- df[[x]] %>% as.numeric()
 
     outlier_checks[[x]] <-  df %>% mutate(
-      issue = case_when(df[[x]] %in% boxplot.stats(aa)$out~"outlier"),
+      issue = case_when(df[[x]] %in% boxplot.stats(df[[x]])$out~"outlier"),
     ) %>% filter(issue == "outlier") %>% select(cols_to_report,issue,x) %>%
       pivot_longer(cols = paste0(x),names_to ="questions",values_to= "old_value")
   }
