@@ -7,6 +7,7 @@
 quick_survey(
   df,
   consent_column_name,
+  audit_node,
   uuid_col_name = "X_uuid",
   start_question_node,
   end_question_node,
