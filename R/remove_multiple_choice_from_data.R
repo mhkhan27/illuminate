@@ -23,7 +23,7 @@ remove_mutiple_choice_cols_and_make_logical <- function(df,kobo_servey_sheet){
   }
 
   df <- df %>%
-    select_if(function(x) !all(is.na(x)))
+    select_if(function(x) !all(is.na(x))) ### remove all NA columns
 
   return(df)
 }
