@@ -4,10 +4,12 @@
 \alias{read_all_sheet_as_csv_format}
 \title{read all the sheets from a Excel file}
 \usage{
-read_all_sheet_as_csv_format(xlsx_file_path)
+read_all_sheet_as_csv_format(dataset_path)
 }
 \arguments{
-\item{xlsx_file_path}{location of the excel file}
+\item{dataset_path}{location of the dataset}
+
+\item{kobo_tool_path}{location of the kobo tool}
 }
 \value{
 All of the sheet as individual dataframe
