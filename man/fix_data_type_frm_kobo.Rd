@@ -4,12 +4,18 @@
 \alias{fix_data_type_frm_kobo}
 \title{Generate dataset for butteR::survey_collaps()}
 \usage{
-fix_data_type_frm_kobo(df, kobo_servey_sheet)
+fix_data_type_frm_kobo(
+  df,
+  kobo_servey_sheet,
+  remove_multiple_choice_concat = T
+)
 }
 \arguments{
 \item{df}{The data set}
 
 \item{kobo_servey_sheet}{The defult (NUll) will create additional table for multiple choice questions}
+
+\item{remove_multiple_choice_concat}{it is a logical parameter. Ture will remove the aggregated columns (for multiple choice question) from the dataset}
 }
 \description{
 Generate dataset for butteR::survey_collaps()
