@@ -5,7 +5,7 @@
 #' @export
 
 
-fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_concat = T){
+fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_concat = F){
 
   select_mutiple_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"select_multiple"))
   integer_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"integer"))

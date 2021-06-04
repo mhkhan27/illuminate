@@ -7,7 +7,7 @@
 fix_data_type_frm_kobo(
   df,
   kobo_servey_sheet,
-  remove_multiple_choice_concat = T
+  remove_multiple_choice_concat = F
 )
 }
 \arguments{

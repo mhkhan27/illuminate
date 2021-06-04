@@ -4,7 +4,7 @@
 \alias{auto_detect_sm_parents}
 \title{Detect select multiple parent columns}
 \usage{
-auto_detect_sm_parents(df, sm_sep = "/")
+auto_detect_sm_parents(df, sm_sep = ".")
 }
 \arguments{
 \item{df}{a survey object or dataframe}

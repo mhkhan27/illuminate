@@ -4,7 +4,7 @@
 \alias{auto_sm_parent_child}
 \title{detect and group together select multiple parent and children columns}
 \usage{
-auto_sm_parent_child(df, sm_sep = "/")
+auto_sm_parent_child(df, sm_sep = ".")
 }
 \arguments{
 \item{df}{a survey object or dataframe}

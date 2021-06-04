@@ -12,7 +12,7 @@
 #'
 #'
 #' @export
-auto_detect_sm_parents<- function(df, sm_sep="/"){
+auto_detect_sm_parents<- function(df, sm_sep="."){
   sm_parents<-sub(glue::glue('.[^\\{sm_sep}]*$'), '', colnames(df))
   sm_parents<-data.frame(col_names=sm_parents[sm_parents!=""])
   select_multiple_detected<-sm_parents %>%
@@ -35,7 +35,7 @@ auto_detect_sm_parents<- function(df, sm_sep="/"){
 #' @export
 
 
-auto_sm_parent_child<- function(df, sm_sep="/"){
+auto_sm_parent_child<- function(df, sm_sep="."){
   sm_parents<-auto_detect_sm_parents(df, sm_sep)
   sm_child<- df %>%
     select(starts_with(glue::glue("{sm_parents}{sm_sep}"))) %>%
