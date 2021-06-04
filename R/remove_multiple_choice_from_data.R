@@ -4,13 +4,24 @@
 #' @export
 
 
-remove_mutiple_choice_cols_and_make_logical <- function(df,kobo_servey_sheet){
+fix_data_type_frm_kobo <- function(df,kobo_servey_sheet){
 
   select_mutiple_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"select_multiple"))
   integer_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"integer"))
 
   select_mutiple_from_kobo_cols <-select_mutiple_from_kobo$name
   interger_from_kobo_cols <-integer_from_kobo$name
+
+
+  select_int_from_kobo_cols<- interger_from_kobo_cols[interger_from_kobo_cols %in% names(df)]
+
+
+
+
+    df <- df %>% mutate_at(select_int_from_kobo_cols,as.integer)
+
+
+
 
   select_mutiple_from_kobo_cols<- select_mutiple_from_kobo_cols[select_mutiple_from_kobo_cols %in% names(df)]
 
