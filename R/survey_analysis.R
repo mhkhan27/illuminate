@@ -326,12 +326,12 @@ survey_analysis<-function(df,
     survey <- survey %>% select(name,starts_with("label::"))
     choices <- choices  %>% select(name,starts_with("label::"))
     names(choices) <- paste0("choice_", names(choices))
-    output_result %>% left_join(survey,by = c("main_variable"= "name")) %>%
+    output_result<- output_result %>% left_join(survey,by = c("main_variable"= "name")) %>%
       left_join(choices,by= c("choice"="choice_name")) %>% select(main_variable,starts_with("label::"),choice,starts_with("Choice_label"),everything())
   }
 
   if(question_lable == F) {
-    output_result
+    output_result <- output_result
   }
   output_result
 
