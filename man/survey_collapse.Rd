@@ -12,7 +12,7 @@ survey_analysis(
   na_val,
   sm_sep = "/",
   question_lable = F,
-  kobo_path
+  kobo_path = NULL
 )
 }
 \arguments{
