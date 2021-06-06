@@ -281,7 +281,7 @@ survey_analysis<-function(df,
                           na_val,
                           sm_sep="/",
                           question_lable = F,
-                          kobo_path){
+                          kobo_path = NULL){
   sm_parent_child_all<-auto_sm_parent_child(df$variables)
   sm_parent_child_vars<- sm_parent_child_all %>%
     filter(sm_parent %in% vars_to_analyze)
