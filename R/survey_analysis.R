@@ -333,7 +333,7 @@ survey_analysis<-function(df,
   if(question_lable == F) {
     output_result
   }
-
+  output_result
 
 }
 
