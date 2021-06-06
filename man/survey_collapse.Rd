@@ -5,7 +5,15 @@
 \alias{survey_analysis}
 \title{Batch Collapse Survey Data into tidy long format}
 \usage{
-survey_analysis(df, vars_to_analyze, disag = NULL, na_val, sm_sep = "/")
+survey_analysis(
+  df,
+  vars_to_analyze,
+  disag = NULL,
+  na_val,
+  sm_sep = "/",
+  question_lable = F,
+  kobo_path
+)
 }
 \arguments{
 \item{df}{a survey or preferably srvyr object}
@@ -17,8 +25,12 @@ survey_analysis(df, vars_to_analyze, disag = NULL, na_val, sm_sep = "/")
 \item{na_val}{if you want NA replaced by value. By default NA values will be removed prior to aggregation. It is recommended
 that you do not adjust this value and deal with na values as a separate step}
 
-\item{sm_sep}{select multiple parent child separator. This is specific for XLSForm data (default = /).
+\item{sm_sep}{select multiple parent child separator. This is specific for XLSForm data (default = /).}
+
+\item{question_lable}{A logical variable. Select TRUE if label from kobo is necessary in the analysis.
 If using read_csv to read in data the separator will most likely be '/' where as if using read.csv it will likely be '.'}
+
+\item{kobo_path}{kobo tool path}
 }
 \value{
 a long format data frame containing the collapsed data.

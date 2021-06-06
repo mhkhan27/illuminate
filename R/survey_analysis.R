@@ -265,6 +265,8 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 #' @param na_val if you want NA replaced by value. By default NA values will be removed prior to aggregation. It is recommended
 #' that you do not adjust this value and deal with na values as a separate step
 #' @param sm_sep select multiple parent child separator. This is specific for XLSForm data (default = /).
+#' @param kobo_path kobo tool path
+#' @param question_lable A logical variable. Select TRUE if label from kobo is necessary in the analysis.
 
 #'  If using read_csv to read in data the separator will most likely be '/' where as if using read.csv it will likely be '.'
 #' @return a long format data frame containing the collapsed data.
@@ -274,10 +276,12 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 
 
 survey_analysis<-function(df,
-                            vars_to_analyze,
-                            disag=NULL,
-                            na_val,
-                            sm_sep="/"){
+                          vars_to_analyze,
+                          disag=NULL,
+                          na_val,
+                          sm_sep="/",
+                          question_lable = F,
+                          kobo_path){
   sm_parent_child_all<-auto_sm_parent_child(df$variables)
   sm_parent_child_vars<- sm_parent_child_all %>%
     filter(sm_parent %in% vars_to_analyze)
@@ -308,13 +312,23 @@ survey_analysis<-function(df,
     }
 
   }
-  bind_rows(res_list) %>%  tidyr::separate(variable_val,
-                                           c("question", "options"),sep = "\\.",
-                                           extra='merge') %>% mutate(
-                                             main_variable = case_when(is.na(variable)| variable == ""  ~question, T ~ variable),
-                                             choice = case_when(!is.na(options)|options!= ""~ options,T~question),
-                                             choice = case_when(main_variable == choice ~ NA_character_, T~ choice)
-                                           ) %>% select(main_variable,choice,everything()) %>% select(-variable,-question,-options)
+  output_result<- bind_rows(res_list) %>%  tidyr::separate(variable_val,
+                                                           c("question", "options"),sep = "\\.",
+                                                           extra='merge') %>% mutate(
+                                                             main_variable = case_when(is.na(variable)| variable == ""  ~question, T ~ variable),
+                                                             choice = case_when(!is.na(options)|options!= ""~ options,T~question),
+                                                             choice = case_when(main_variable == choice ~ NA_character_, T~ choice)
+                                                           ) %>% select(main_variable,choice,everything()) %>% select(-variable,-question,-options)
+
+
+  if(question_lable == T) {
+    read_all_sheet_as_csv_format(kobo_path)
+    survey <- survey %>% select(name,starts_with("label::"))
+    choices <- choices  %>% select(name,starts_with("label::"))
+    names(choices) <- paste0("choice_", names(choices))
+    output_result %>% left_join(survey,by = c("main_variable"= "name")) %>%
+      left_join(choices,by= c("choice"="choice_name")) %>% select(main_variable,starts_with("label::"),choice,starts_with("Choice_label"),everything())
+  }
 
 
 }
