@@ -330,6 +330,10 @@ survey_analysis<-function(df,
       left_join(choices,by= c("choice"="choice_name")) %>% select(main_variable,starts_with("label::"),choice,starts_with("Choice_label"),everything())
   }
 
+  if(question_lable == F) {
+    output_result
+  }
+
 
 }
 
