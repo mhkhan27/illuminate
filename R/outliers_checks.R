@@ -38,7 +38,7 @@ if(!is.null(kobo_tool_location) & include_multiple_choices ==T) {
 
 
   if(!is.null(kobo_tool_location) & include_multiple_choices ==F) {
-    cols_name_exist_in_loop <-cols_name_exist_in_loop_int %>% unique()
+    cols_name_exist_in_loop <-cols_name_exist_in_loop_kobo %>% unique()
 
   }
 
