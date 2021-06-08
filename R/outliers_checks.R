@@ -3,12 +3,13 @@
 #'
 #' @param df data frame
 #' @param kobo_tool_location kobo tool path. Defult is null
+#' @param include_multiple_choices. Write TRUE if you want to consider multiple questions
 #' @return Outliers issue
 #' @export
 #'
 
 
-outlier_check <- function(df,kobo_tool_location=NULL,cols_to_report = NULL){
+outlier_check <- function(df,kobo_tool_location=NULL,cols_to_report = NULL,include_multiple_choices =F){
 
 if(!is.null(kobo_tool_location)) {
 
@@ -27,12 +28,19 @@ if(!is.null(kobo_tool_location)) {
   cols_name_exist_in_loop_numeric <- df %>% select_if(is.numeric) %>% select(-starts_with("X"))%>% names()
   cols_name_exist_in_loop_int <- df %>% select_if(is.integer) %>% select(-starts_with("X"))%>% names()
 
-if(!is.null(kobo_tool_location)) {
+if(!is.null(kobo_tool_location) & include_multiple_choices ==T) {
   cols_name_exist_in_loop <- c(cols_name_exist_in_loop_kobo,
                                cols_name_exist_in_loop_numeric,
                                cols_name_exist_in_loop_int) %>% unique()
 
 }
+
+
+
+  if(!is.null(kobo_tool_location) & include_multiple_choices ==F) {
+    cols_name_exist_in_loop <-cols_name_exist_in_loop_int %>% unique()
+
+  }
 
 
 if(is.null(kobo_tool_location)) {

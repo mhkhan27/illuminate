@@ -4,12 +4,19 @@
 \alias{outlier_check}
 \title{check outliers of the dataset}
 \usage{
-outlier_check(df, kobo_tool_location = NULL, cols_to_report = NULL)
+outlier_check(
+  df,
+  kobo_tool_location = NULL,
+  cols_to_report = NULL,
+  include_multiple_choices = F
+)
 }
 \arguments{
 \item{df}{data frame}
 
 \item{kobo_tool_location}{kobo tool path. Defult is null}
+
+\item{include_multiple_choices.}{Write TRUE if you want to consider multiple questions}
 }
 \value{
 Outliers issue
