@@ -1,11 +1,12 @@
 #' Generate dataset for butteR::survey_collaps()
 #' @param df The data set
 #' @param kobo_servey_sheet The defult (NUll) will create additional table for multiple choice questions
-#' @param remove_multiple_choice_concat it is a logical parameter. Ture will remove the aggregated columns (for multiple choice question) from the dataset
+#' @param remove_multiple_choice_concat A logical parameter. Ture will remove the aggregated columns (for multiple choice question) from the dataset
+#' @param remove_all_NA_col A logical parameter. Ture will remove the columns where all values are NA
 #' @export
 
 
-fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_concat = F){
+fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_concat = F,remove_all_NA_col=T){
 
   select_mutiple_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"select_multiple"))
   integer_from_kobo <- kobo_servey_sheet %>% dplyr::filter(str_detect(type,"integer"))
@@ -38,8 +39,9 @@ fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_c
     df <- df %>% mutate_at(df_cols_to_logical,as.logical)
   }
 
+if(remove_all_NA_col ==T){
   df <- df %>%
     select_if(function(x) !all(is.na(x))) ### remove all NA columns
-
+}
   return(df)
 }

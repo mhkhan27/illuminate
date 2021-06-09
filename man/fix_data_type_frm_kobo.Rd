@@ -7,7 +7,8 @@
 fix_data_type_frm_kobo(
   df,
   kobo_servey_sheet,
-  remove_multiple_choice_concat = F
+  remove_multiple_choice_concat = F,
+  remove_all_NA_col = T
 )
 }
 \arguments{
@@ -15,7 +16,9 @@ fix_data_type_frm_kobo(
 
 \item{kobo_servey_sheet}{The defult (NUll) will create additional table for multiple choice questions}
 
-\item{remove_multiple_choice_concat}{it is a logical parameter. Ture will remove the aggregated columns (for multiple choice question) from the dataset}
+\item{remove_multiple_choice_concat}{A logical parameter. Ture will remove the aggregated columns (for multiple choice question) from the dataset}
+
+\item{remove_all_NA_col}{A logical parameter. Ture will remove the columns where all values are NA}
 }
 \description{
 Generate dataset for butteR::survey_collaps()
