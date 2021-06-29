@@ -28,7 +28,7 @@ logical_check <- function(df,uuid,logic_list_df,logic_col_name,add_description =
 
     cols_name_in_the_logic <- word_in_the_logic[word_in_the_logic %in% names(df)]
 
-    print(cols_name_in_the_logic)
+    print(to_replace)
     column_to_report <- c(uuid,cols_name_in_the_logic)
 
     ########
