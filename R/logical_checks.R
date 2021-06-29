@@ -21,10 +21,9 @@ logical_check <- function(df,uuid,logic_list_df,logic_col_name,add_description =
     # Find out the column names that listed in logic
 
     to_replace = logic_list_df[[i,paste0(logic_col_name)]]
-    word_list <- to_replace %>% strsplit( " ")  %>% dput()
+    word_list <- to_replace %>% strsplit( " ")
     word_list_df <- word_list  %>% as.data.frame()
-    word_in_the_logic <- word_list_df[[1]] %>% dput()
-
+    word_in_the_logic <- word_list_df[[1]]
 
     cols_name_in_the_logic <- word_in_the_logic[word_in_the_logic %in% names(df)]
 
