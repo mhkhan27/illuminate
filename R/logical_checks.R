@@ -7,7 +7,7 @@
 #' @param logic_col_name Name of the column of logic_list_df data frame where all the logic are listed
 #' @param add_description TRUE [default ], if you want to add a description for each logic.
 #' @param col_name_issue Name of the column of logic_list_df data frame where the description for each logic is listed
-#' @return A data frame where all the issues are listed as a cleaning log format
+#' @return A data frame where all the issues will be listed as a cleaning log format
 #' @export
 #'
 

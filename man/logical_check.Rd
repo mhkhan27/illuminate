@@ -27,7 +27,7 @@ logical_check(
 \item{col_name_issue}{Name of the column of logic_list_df data frame where the description for each logic is listed}
 }
 \value{
-A data frame where all the issues are listed as a cleaning log format
+A data frame where all the issues will be listed as a cleaning log format
 }
 \description{
 List of logical issues in the data set
