@@ -1,3 +1,15 @@
+#'
+#' This function provide excel file as REACH format
+#'
+#' @param write_list a list file (can be compile with single or multiple dataframe)
+#' @param output_path Path for output file
+#' @param cols_for_color Column name in the dataframe which should be use for colorizing the cell. The default is null.
+#' @return Nicely formatted excel file
+#' @export
+#'
+
+
+
 write_excel_as_reach_format <- function(write_list,output_path,cols_for_color = NULL){
 
 
