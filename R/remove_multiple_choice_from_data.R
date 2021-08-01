@@ -36,6 +36,7 @@ fix_data_type_frm_kobo <- function(df,kobo_servey_sheet,remove_multiple_choice_c
   for(i in select_mutiple_from_kobo_cols ){
     df_cols_to_logical <- df %>% select(starts_with(paste0(i,"."))) %>% names()
 
+    df <- df %>% mutate_at(df_cols_to_logical,as.integer)
     df <- df %>% mutate_at(df_cols_to_logical,as.logical)
   }
 
