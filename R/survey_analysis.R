@@ -276,17 +276,34 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 
 
 survey_analysis<-function(df,
-                          vars_to_analyze,
-                          disag=NULL,
-                          na_val,
-                          sm_sep="/",
-                          question_lable = F,
-                          kobo_path = NULL){
+                           vars_to_analyze,
+                           disag=NULL,
+                           na_val,
+                           sm_sep="/",
+                           question_lable = F,
+                           kobo_path = NULL){
   sm_parent_child_all<-auto_sm_parent_child(df$variables)
   sm_parent_child_vars<- sm_parent_child_all %>%
     filter(sm_parent %in% vars_to_analyze)
   not_sm<-vars_to_analyze[!vars_to_analyze %in% sm_parent_child_vars$sm_parent]
   vars_to_analyze<- c(not_sm, sm_parent_child_vars$sm_child)
+
+
+
+  ############################# NA RESPONSE #######################################################################################
+
+  na_response_rate <-get_na_response_rates(df_svy$variables)
+
+
+  response_rate <- na_response_rate %>% mutate(
+    response_count = nrow(df_svy$variables)- num_non_response
+  )
+
+  response_rate <- dplyr::filter(response_rate ,!grepl('\\.',question)) %>% data_frame() %>% dplyr::select(question,response_count)
+
+  ##############################################################################################################
+
+
 
   if(!is.null(disag)){
     vars_to_analyze<-setdiff(vars_to_analyze,disag )
@@ -328,14 +345,59 @@ survey_analysis<-function(df,
     names(choices) <- paste0("choice_", names(choices))
     output_result<- output_result %>% left_join(survey,by = c("main_variable"= "name")) %>%
       left_join(choices,by= c("choice"="choice_name")) %>% select(main_variable,starts_with("label::"),choice,starts_with("Choice_label"),everything())
+
+    output_result <- output_result %>%  left_join(response_rate,by =c("main_variable"="question"))
   }
 
   if(question_lable == F) {
+    output_result <- output_result %>%  left_join(response_rate,by =c("main_variable"="question"))
+  }
+
+
+  if(!is.null(disag)){
+
+    main_variable_list <- output_result$main_variable %>% unique()
+
+
+    count_by_location  <- list()
+
+    for(i in main_variable_list){
+
+      df_2 <-  df$variables %>% dplyr::select(i,disag) %>% dplyr::filter(!is.na(df$variables[i]))
+
+      count_by_location[[i]] <- df_2 %>% dplyr::group_by(!!!syms(disag)) %>% dplyr::summarise(
+        count_by_subset = n()) %>% mutate(
+          main_variable = i
+        )
+
+    }
+
+    count_by_location_df <- do.call("bind_rows",count_by_location)
+
+
+    for(i in 1:length(disag)){
+      new_col_name <- paste0("subset_",i,"_val")
+      count_by_location_df <- count_by_location_df %>% rename(
+        !!new_col_name:= disag[[i]]
+      )
+
+
+    }
+
+    count_by_location_df <- count_by_location_df %>% select(main_variable,count_by_subset,starts_with("subset_"))
+
+    output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
+
+  }
+
+
+  if(is.null(disag)){
     output_result <- output_result
   }
-  output_result
 
+  output_result
 }
+
 
 
 #' @name mutate_key_pair
