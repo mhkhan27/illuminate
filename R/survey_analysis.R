@@ -292,11 +292,11 @@ survey_analysis<-function(df,
 
   ############################# NA RESPONSE #######################################################################################
 
-  na_response_rate <-get_na_response_rates(df_svy$variables)
+  na_response_rate <-get_na_response_rates(df$variables)
 
 
   response_rate <- na_response_rate %>% mutate(
-    response_count = nrow(df_svy$variables)- num_non_response
+    response_count = nrow(df$variables)- num_non_response
   )
 
   response_rate <- dplyr::filter(response_rate ,!grepl('\\.',question)) %>% data_frame() %>% dplyr::select(question,response_count)
