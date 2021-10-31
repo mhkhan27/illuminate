@@ -389,13 +389,13 @@ survey_analysis<-function(df,
     output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
 
     output_result <- output_result %>%
-      dplyr::select(everything(),response_count)
+       relocate(response_count, .after = last_col())
 
   }
 
 
   if(is.null(disag)){
-    output_result <- output_result %>% dplyr::select(everything(),response_count)
+    output_result <- output_result %>% relocate(response_count, .after = last_col())
   }
 
   output_result
