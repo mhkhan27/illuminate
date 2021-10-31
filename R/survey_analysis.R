@@ -389,15 +389,13 @@ survey_analysis<-function(df,
     output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
 
     output_result <- output_result %>%
-      dplyr::select(c(everything(),starts_with("subset_"),contains("mean"),
-                    "n_unweighted","count_by_subset","response_count"))
+      dplyr::select(everything(),response_count)
 
   }
 
 
   if(is.null(disag)){
-    output_result <- output_result %>% dplyr::select(c(everything(),starts_with("subset_"),contains("mean"),
-                                                     "n_unweighted","response_count"))
+    output_result <- output_result %>% dplyr::select(everything(),response_count)
   }
 
   output_result
