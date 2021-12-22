@@ -251,8 +251,8 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
            everything())
 }
 
-#' @name survey_collapse
-#' @rdname survey_collapse
+#' @name survey_analysis
+#' @rdname survey_analysis
 #' @title Batch Collapse Survey Data into tidy long format
 #'
 #' @description `survey_analysis` uses the srvyr [srvyr::survey_mean] & survey package [survey::svymean]   methods
