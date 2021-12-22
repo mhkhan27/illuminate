@@ -35,6 +35,4 @@ devtools::install_github("mhkhan27/illuminate")
 
 ```
 
-## Functions
 
-### 1. survey_frequency_by_questions ()
