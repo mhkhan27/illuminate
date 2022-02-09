@@ -9,7 +9,7 @@
 #' @param ci Confidence interval. The default is .95
 #' @param simulate.p.value A logical vector indicating whether to compute p-values by Monte Carlo simulation. This parameter only applied to Chi square test. TRUE is default. FLASE is preferable when you have large data set.
 #' @details
-#' Matrix for Statistical test (when to use what test)
+#' Matrix for statistical test (when to use what test)
 #'\tabular{rrrrr}{
 #'   \strong{} \tab \strong{Categorical} \tab \strong{Numerical}  \cr
 #'   \strong{Categorical} \tab Chi Square Test \tab T test: When there is only 2 groups/ ANOVA: When there is more than 2 groups \cr

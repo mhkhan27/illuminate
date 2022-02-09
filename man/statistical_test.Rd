@@ -30,7 +30,7 @@ statistical_test(
 Function for one way ANOVA/T/Chi-square test
 }
 \details{
-Matrix for Statistical test (when to use what test)
+Matrix for statistical test (when to use what test)
 \tabular{rrrrr}{
   \strong{} \tab \strong{Categorical} \tab \strong{Numerical}  \cr
   \strong{Categorical} \tab Chi Square Test \tab T test: When there is only 2 groups/ ANOVA: When there is more than 2 groups \cr
