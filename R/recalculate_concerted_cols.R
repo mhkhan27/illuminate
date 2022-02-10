@@ -40,4 +40,9 @@ recalculate_concerted_col_for_select_multiple <- function(df, uuid = "X_uuid"){
 
     return(data_with_fix_concat)
   }
+
+  if(nrow(select_multiple)== 0){
+    return(df)
+  }
+
 }
