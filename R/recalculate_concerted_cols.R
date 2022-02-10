@@ -5,6 +5,7 @@
 
 recalculate_concerted_col_for_select_multiple <- function(df, uuid = "X_uuid"){
 
+
   names(df) <- sub("(\\..*?)\\.", "\\1_", names(df))
   names(df) <- sub("(\\..*?)\\.", "\\1_", names(df))
   cols_order <- df %>% names()
