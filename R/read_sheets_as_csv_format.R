@@ -12,7 +12,7 @@ read_all_sheet_as_csv_format <- function(dataset_path){
   sheet_name <- excel_sheets(dataset_path)
   df_all <- list()
   for (i in sheet_name) {
-    assign(i,read_xlsx(dataset_path,sheet = i))
+    assign(i,read_xlsx(dataset_path,sheet = i,guess_max = 21474836))
     df <- get(i)
     colnames(df) <- colnames(df) %>% str_replace_all("/",".")
     df_st_with <- df %>% select(starts_with("_")) %>% names()
