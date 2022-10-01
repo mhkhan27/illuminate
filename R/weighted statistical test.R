@@ -143,14 +143,14 @@ weighted_t_test <- function(data,binary_variable,non_binary_variable,strata,surv
   for(i in non_binary_variable){
 
      out_liers_independent_variable <- boxplot.stats(data[[i]])$out
-     df <- df %>% filter(!df[[i]] %in% out_liers_independent_variable)
+     df <- data %>% filter(!data[[i]] %in% out_liers_independent_variable)
      df <- df %>% filter(!is.na(df[[i]]))
      df <- df %>% filter(! is.infinite(df[[i]]))
 
     dfsvy <- as_survey(df,strata = strata,weights = survey_weights)
 
 
-    f_mula <- formula(paste0(i, "~",non_binary_variable ))
+    f_mula <- formula(paste0(i, "~",binary_variable ))
     test <- survey::svyttest(f_mula,design = dfsvy)
 
 
