@@ -6,8 +6,8 @@
 \usage{
 weighted_t_test(
   data,
-  dependent_variables,
-  independent_variable,
+  binary_variable,
+  non_binary_variable,
   strata,
   survey_weights
 )
@@ -15,9 +15,9 @@ weighted_t_test(
 \arguments{
 \item{data}{dataset}
 
-\item{dependent_variables}{must be binary variable and only one value can be use.}
+\item{binary_variable}{must be binary variable and only one value can be use.}
 
-\item{independent_variable}{must be numeric, multiple values are allowed.}
+\item{non_binary_variable}{must be numeric, multiple values are allowed.}
 
 \item{strata}{Column name in the dataset for strata}
 
