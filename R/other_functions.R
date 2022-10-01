@@ -32,3 +32,13 @@ nearest_feature<- function(x, y){
 
 
 
+#' @param df dataframe
+#' @param condition st object
+#' @return dataframe with NA value
+#' @export
+#'
+
+
+replace_with_na_over_df <- function(df, value) {
+  purrr::map_dfc(df, ~ na_set(.x, ~.x %in% value ) )
+}

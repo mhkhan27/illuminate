@@ -123,37 +123,41 @@ weighted_pearson_test<- function(data,dep_var,ind_var,strata,survey_weights){
 #'
 #'
 #' @param data dataset
-#' @param dependent_variables must be binary variable and only one value can be use.
-#' @param independent_variable must be numeric, multiple values are allowed.
+#' @param binary_variable must be binary variable and only one value can be use.
+#' @param non_binary_variable must be numeric, multiple values are allowed.
 #' @param strata Column name in the dataset for strata
 #' @param survey_weights Column name in the dataset for survey weights
 #' @return outcome of left join based on the primary key
 #' @export
 #'
 
-weighted_t_test <- function(data,dependent_variables,independent_variable,strata,survey_weights){
+weighted_t_test <- function(data,binary_variable,non_binary_variable,strata,survey_weights){
 
 
-  data <- data %>% filter(!is.na(data[[independent_variable]]))
-  data <- data %>% filter(! is.infinite(data[[independent_variable]]))
+  data <- data %>% filter(!is.na(data[[binary_variable]]))
+  data <- data %>% filter(! is.infinite(data[[binary_variable]]))
 
-  out_liers_independent_variable <- boxplot.stats(data[[independent_variable]])$out
-  data <- data %>% filter(!data[[independent_variable]] %in% out_liers_independent_variable)
-
-  dfsvy <- as_survey(data,strata = strata,weights = survey_weights)
 
   test_result <- list()
 
-  for(i in dependent_variables){
+  for(i in non_binary_variable){
 
-    f_mula <- formula(paste0(independent_variable, "~",i ))
+     out_liers_independent_variable <- boxplot.stats(data[[i]])$out
+     df <- df %>% filter(!df[[i]] %in% out_liers_independent_variable)
+     df <- df %>% filter(!is.na(df[[i]]))
+     df <- df %>% filter(! is.infinite(df[[i]]))
+
+    dfsvy <- as_survey(df,strata = strata,weights = survey_weights)
+
+
+    f_mula <- formula(paste0(i, "~",non_binary_variable ))
     test <- survey::svyttest(f_mula,design = dfsvy)
 
 
 
     test_result[[i]] <- data.frame(
-      independent_variable = independent_variable,
-      dependent_variables = i,
+      binary_variable = independent_variable,
+      non_binary_variable = i,
       t_value = test$statistic %>% as.numeric(),
       p_value = test$p.value %>% as.numeric(),
       df = test$parameter %>% as.numeric(),
