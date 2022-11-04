@@ -143,6 +143,7 @@ weighted_t_test <- function(data,binary_variable,non_binary_variable,strata,surv
   for(i in non_binary_variable){
 
      out_liers_independent_variable <- boxplot.stats(data[[i]])$out
+
      if(length(out_liers_independent_variable) > 0){
      df <- data %>% filter(!data[[i]] %in% out_liers_independent_variable)
      }
