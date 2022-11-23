@@ -164,7 +164,7 @@ weighted_t_test <- function(data,binary_variable,non_binary_variable,strata,surv
 
 
     test_result[[i]] <- data.frame(
-      binary_variable = independent_variable,
+      binary_variable = binary_variable,
       non_binary_variable = i,
       t_value = test$statistic %>% as.numeric(),
       p_value = test$p.value %>% as.numeric(),
