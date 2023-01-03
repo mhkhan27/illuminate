@@ -1,3 +1,24 @@
+#' Credit goes to Zack Arno
+#' Get NA percentages and frequency for each column in the data set
+#' @param data The dataset (data.frame).
+#' @return frequency and proportion table of NA rates.
+#' @export
+
+get_na_response_rates<-function(data){
+  na_count_per_question<-sapply(data, function(y) sum(length(which(is.na(y)))))
+  na_percent_per_question <-sapply(data, function(y) ((sum(length(which(is.na(y)))))/nrow(data))*100)
+  non_response_df<-data.frame(num_non_response=na_count_per_question,perc_non_response= na_percent_per_question)
+  non_response_df1<-non_response_df %>%
+    mutate(question=rownames(.)) %>%
+    dplyr::select(question, everything()) %>%
+    arrange(num_non_response, question)
+}
+
+
+
+
+
+
 #' @name auto_detect_sm_parents
 #' @rdname auto_detect_sm_parents
 #' @title Detect select multiple parent columns
@@ -276,12 +297,33 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 
 
 survey_analysis<-function(df,
-                           vars_to_analyze,
+                          weights = F,
+                          weight_column =NULL,
+                          strata ,
+                           vars_to_analyze=NULL,
                            disag=NULL,
                            na_val,
                            sm_sep="/",
                            question_lable = F,
                            kobo_path = NULL){
+
+
+
+if(!is.null(vars_to_analyze)) {vars_to_analyze <- vars_to_analyze[vars_to_analyze %in% names(df)]}
+if(is.null(vars_to_analyze)) {vars_to_analyze <- names(df)}
+
+
+if(!is.null(weight_column)) {vars_to_analyze <- vars_to_analyze[!vars_to_analyze %in% weight_column]}
+
+
+  if(weights == T){
+    df <- as_survey(df,strata = strata, weight = weight_column)
+  }
+
+  if(weights == F){
+    df <- as_survey(df)
+  }
+
   sm_parent_child_all<-auto_sm_parent_child(df$variables)
   sm_parent_child_vars<- sm_parent_child_all %>%
     filter(sm_parent %in% vars_to_analyze)
