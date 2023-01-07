@@ -32,9 +32,33 @@ library(tidyr)
 ## Overview
 illuminate is designed for making the data analysis easy and less time consuming. The package is based on tidyr, dplyr,srvyr packages. Most common functions are- 
 
+***1. Read and write file***
+----
+
 * `read_sheets()` read all sheet in an excel file and makes sure that data stores in appropriate data type. 
-* `survey_analysis()` calculate the weighted mean/proporation and un weighted count for all existing variable is the dataset. 
 * `write_formatted_excel()` write formatted excel.
+
+***2. Data cleanining***
+----
+
+* `outlier_checks()` 
+* `others_checks()`
+* `survey_duration_from_audit()`
+
+
+***3. Clearting cleanining log***
+----
+
+
+***4. Implementing cleanining log***
+----
+
+
+***5. Data Analysis***
+---
+* `survey_analysis()` calculate the weighted mean/proporation and unweighted count for all existing variable is the dataset. 
+
+
 
 ## Installation
 
@@ -52,11 +76,13 @@ devtools::install_github("mhkhan27/illuminate")
 ##### Step 0:: Call libraries
 
 ``` {r, eval=FALSE}
-library(srvyr)
 library(illuminate)
 library(tidyverse)
 library(purrr)
+library(readxl)
 library(openxlsx)
+library(srvyr)
+
 
 ```
 
@@ -126,7 +152,8 @@ overall_analysis <- survey_analysis(df = data_up,weights = T,weight_column = "su
 ##### Step 3.2:: Unweighted analysis
 
 ``` {r, eval=FALSE}
-overall_analysis <- survey_analysis(df = data_up,weights = F)
+columns_to_analyze <- data_up[20:50] %>% names() 
+overall_analysis <- survey_analysis(df = data_up,weights = F,vars_to_analyze = columns_to_analyze )
 
 ```
 
@@ -135,10 +162,10 @@ overall_analysis <- survey_analysis(df = data_up,weights = F)
 Use `?survey_analysis()` to know about the perameters. 
 
 ``` {r, eval=FALSE}
-columns_to_analyze <- data_up[20:30] %>% names() # dummy code. Please define the name of the columns which you would like to analyze. Default will analyze all the variables exist in the dataset. 
+# dummy code. Please define the name of the columns which you would like to analyze. Default will analyze all the variables exist in the dataset. 
 
 analysis_by_gender <-  survey_analysis(df = data_up,weights = T,weight_column = "survey_weight",vars_to_analyze = columns_to_analyze,
-                                       strata = "governorate1",disag = "gender_speaker")
+                                       strata = "governorate1",disag = c("va_child_income","gender_speaker"))
 ```
 
 

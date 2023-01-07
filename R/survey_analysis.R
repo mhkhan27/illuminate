@@ -159,7 +159,7 @@ survey_collapse_binary_long<- function(df,
     summarise(
       `mean/pct`=survey_mean(!!sym(x),na.rm=TRUE,vartype="ci"),
     ) %>%
-    mutate(variable_val=x) %>%
+    mutate(variable_val=x) %>% # mean for intger
     cbind(n_unweighted=vec_n)
 
 
@@ -297,9 +297,9 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 
 
 survey_analysis<-function(df,
-                          weights = F,
-                          weight_column =NULL,
-                          strata ,
+                           weights = F,
+                           weight_column =NULL,
+                           strata ,
                            vars_to_analyze=NULL,
                            disag=NULL,
                            na_val,
@@ -309,11 +309,11 @@ survey_analysis<-function(df,
 
 
 
-if(!is.null(vars_to_analyze)) {vars_to_analyze <- vars_to_analyze[vars_to_analyze %in% names(df)]}
-if(is.null(vars_to_analyze)) {vars_to_analyze <- names(df)}
+  if(!is.null(vars_to_analyze)) {vars_to_analyze <- vars_to_analyze[vars_to_analyze %in% names(df)]}
+  if(is.null(vars_to_analyze)) {vars_to_analyze <- names(df)}
 
 
-if(!is.null(weight_column)) {vars_to_analyze <- vars_to_analyze[!vars_to_analyze %in% weight_column]}
+  if(!is.null(weight_column)) {vars_to_analyze <- vars_to_analyze[!vars_to_analyze %in% weight_column]}
 
 
   if(weights == T){
@@ -330,6 +330,21 @@ if(!is.null(weight_column)) {vars_to_analyze <- vars_to_analyze[!vars_to_analyze
   not_sm<-vars_to_analyze[!vars_to_analyze %in% sm_parent_child_vars$sm_parent]
   vars_to_analyze<- c(not_sm, sm_parent_child_vars$sm_child)
 
+
+
+  ######### check calculation type #############################################
+
+  calculation_type <- lapply(data_up,class) %>% as.data.frame()
+  calculation_type <- calculation_type %>%
+    pivot_longer(cols = names(calculation_type),
+                 names_to = "main_variable",values_to = "type") %>% mutate(
+                   type = case_when(main_variable %in% sm_parent_child_all$sm_parent ~ "logical", T~ type)
+                 ) %>% mutate(analysis_type = case_when(type %in% c("numeric","integer") ~ "mean",
+                                                        type == "logical" ~ "prop_select_multiple",
+                                                        T~ "prop_select_one")) %>% select(-type)
+
+
+  #########33
 
 
   ############################# NA RESPONSE #######################################################################################
@@ -430,15 +445,46 @@ if(!is.null(weight_column)) {vars_to_analyze <- vars_to_analyze[!vars_to_analyze
 
     output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
 
-    output_result <- output_result %>%
-       relocate(response_count, .after = last_col())
+    output_result <- output_result  %>% left_join(calculation_type)
+
+    if(length(disag) == 1){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                         subset_1_name, " ~/~ " , subset_1_val))}
+
+    if(length(disag) == 2){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                                                                                         subset_1_name, " ~/~ " , subset_1_val, " ~/~ ",subset_2_name, " ~/~ " , subset_2_val))}
+
+
+    if(length(disag) == 3){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                                                                                         subset_1_name, " ~/~ " , subset_1_val, " ~/~ ",subset_2_name, " ~/~ " , subset_2_val,
+                                                                                        " ~/~ ",subset_3_name, " ~/~ " , subset_3_val))}
+
+
+    if(length(disag) == 4){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                                                                                         subset_1_name, " ~/~ " , subset_1_val, " ~/~ ",subset_2_name, " ~/~ " , subset_2_val,
+                                                                                         " ~/~ ",subset_3_name, " ~/~ " , subset_3_val,
+                                                                                         " ~/~ ",subset_4_name, " ~/~ " , subset_4_val))}
+
+    if(length(disag) == 5){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                                                                                         subset_1_name, " ~/~ " , subset_1_val,
+                                                                                         " ~/~ ",subset_2_name, " ~/~ " , subset_2_val,
+                                                                                         " ~/~ ",subset_3_name, " ~/~ " , subset_3_val,
+                                                                                         " ~/~ ",subset_4_name, " ~/~ " , subset_4_val,
+                                                                                         " ~/~ ",subset_5_name, " ~/~ " , subset_5_val))}
+
+
+    output_result <- output_result %>% relocate(analysis_type,.after = last_col()) %>% relocate(key_index,.after = last_col())
 
   }
 
 
   if(is.null(disag)){
-    output_result <- output_result %>% relocate(response_count, .after = last_col())
-  }
+    output_result <- output_result  %>% left_join(calculation_type) %>% relocate(response_count, .after = last_col())
+
+    output_result <-  output_result %>% mutate(
+      key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
+                         "NA ~/~ NA")
+    ) %>% relocate(analysis_type,.after = last_col()) %>% relocate(key_index,.after = last_col())
+    }
 
   output_result
 }

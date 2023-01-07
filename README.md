@@ -13,11 +13,26 @@ illuminate is designed for making the data analysis easy and less time
 consuming. The package is based on tidyr, dplyr,srvyr packages. Most
 common functions are-
 
+## ***1. Read and write file***
+
 -   `read_sheets()` read all sheet in an excel file and makes sure that
     data stores in appropriate data type.
--   `survey_analysis()` calculate the weighted mean/proporation and un
-    weighted count for all existing variable is the dataset.
 -   `write_formatted_excel()` write formatted excel.
+
+## ***2. Data cleanining***
+
+-   `outlier_checks()`
+-   `others_checks()`
+-   `survey_duration_from_audit()`
+
+## ***3. Clearting cleanining log***
+
+## ***4. Implementing cleanining log***
+
+## ***5. Data Analysis***
+
+-   `survey_analysis()` calculate the weighted mean/proporation and
+    unweighted count for all existing variable is the dataset.
 
 ## Installation
 
