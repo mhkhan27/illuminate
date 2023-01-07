@@ -334,7 +334,7 @@ survey_analysis<-function(df,
 
   ######### check calculation type #############################################
 
-  calculation_type <- lapply(data_up,class) %>% as.data.frame()
+  calculation_type <- lapply(df$variables,class) %>% as.data.frame()
   calculation_type <- calculation_type %>%
     pivot_longer(cols = names(calculation_type),
                  names_to = "main_variable",values_to = "type") %>% mutate(
