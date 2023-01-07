@@ -15,7 +15,7 @@
 read_sheets<- function(dataset_path,
                            remove_all_NA_col = T,
                            data_type_fix =T,
-                           na_strings = "",
+                           na_strings = c("","NA","N/A"," "),
                            sheets = "all",
                            character_cols=NULL){
 
