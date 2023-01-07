@@ -6,7 +6,10 @@
 \usage{
 survey_analysis(
   df,
-  vars_to_analyze,
+  weights = F,
+  weight_column = NULL,
+  strata,
+  vars_to_analyze = NULL,
   disag = NULL,
   na_val,
   sm_sep = "/",
