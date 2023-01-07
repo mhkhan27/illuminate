@@ -445,7 +445,9 @@ survey_analysis<-function(df,
 
     output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
 
-    output_result <- output_result  %>% left_join(calculation_type)
+    output_result <- output_result  %>% left_join(calculation_type) %>% mutate(
+      analysis_type = case_when(is.na(choice) ~ "mean",T~ analysis_type)
+    )
 
     if(length(disag) == 1){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
                          subset_1_name, " ~/~ " , subset_1_val))}
@@ -478,7 +480,9 @@ survey_analysis<-function(df,
 
 
   if(is.null(disag)){
-    output_result <- output_result  %>% left_join(calculation_type) %>% relocate(response_count, .after = last_col())
+    output_result <- output_result  %>% left_join(calculation_type) %>% mutate(
+      analysis_type = case_when(is.na(choice) ~ "mean",T~ analysis_type)
+    ) %>%  relocate(response_count, .after = last_col())
 
     output_result <-  output_result %>% mutate(
       key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",

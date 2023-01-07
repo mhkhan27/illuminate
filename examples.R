@@ -6,13 +6,9 @@ library(readxl)
 library(openxlsx)
 library(tidyverse)
 
-read_sheets("data/data.xlsx",data_type_fix = T,remove_all_NA_col = T)
+read_sheets("data/data.xlsx",data_type_fix = F,remove_all_NA_col = T)
 
-data_up$other_cases_resources_what.food
-
-data_up <- data_up %>% fix_data_type()
-
-
+data_up$hh_age_gender4
 
 variable_to_ana <- data_up[40:70] %>% names()
 
