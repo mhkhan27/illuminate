@@ -10,5 +10,5 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
-Imports: srvyr,stringr,openxlsx,readxl,purrr,tidyr,tidyverse,survey,weights,jtools
+Imports: srvyr,stringr,openxlsx,readxl,purrr,tidyr,tidyverse,survey,weights,jtools,hexSticker
 

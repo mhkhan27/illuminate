@@ -396,7 +396,7 @@ survey_analysis<-function(df,
 
 
   if(question_lable == T) {
-    read_all_sheet_as_csv_format(kobo_path)
+    read_sheets(kobo_path)
     survey <- survey %>% select(name,starts_with("label::"))
     choices <- choices  %>% select(name,starts_with("label::"))%>% distinct(name,.keep_all = T)
     names(choices) <- paste0("choice_", names(choices))
