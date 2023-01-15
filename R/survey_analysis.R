@@ -356,7 +356,7 @@ survey_analysis<-function(df,
     response_count = nrow(df$variables)- num_non_response
   )
 
-  response_rate <- dplyr::filter(response_rate ,!grepl('\\.',question)) %>% data_frame() %>% dplyr::select(question,response_count)
+  response_rate <- dplyr::filter(response_rate ,!grepl('\\.',question)) %>% tibble() %>% dplyr::select(question,response_count)
 
   ##############################################################################################################
 
