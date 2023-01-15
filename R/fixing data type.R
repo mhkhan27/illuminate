@@ -48,6 +48,12 @@ find_interger_cols <- function(df){
 
 fix_data_type <- function(df,remove_all_NA_col=T,na.string=c("","NA"),character_cols=NULL){
 
+
+## fix naming issue
+names(df)  <- names(df) %>% str_replace_all("/",".")
+
+
+
   ### for numeric
 
 df <- type.convert(df, as.is = T,na.string= na.string)
