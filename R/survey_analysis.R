@@ -483,7 +483,9 @@ survey_analysis<-function(df,
 
   if(is.null(disag)){
     output_result <- output_result  %>% left_join(calculation_type) %>% mutate(
-      analysis_type = case_when(is.na(choice) ~ "mean",T~ analysis_type)
+      analysis_type = case_when(is.na(choice) ~ "mean",
+                                main_variable %in% unique(sm_parent_child_all$sm_parent) ~ "prop_select_multiple",
+                                T~ analysis_type)
     ) %>%  relocate(response_count, .after = last_col())
 
     output_result <-  output_result %>% mutate(
