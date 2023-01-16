@@ -446,7 +446,9 @@ survey_analysis<-function(df,
     output_result <- output_result %>% left_join(count_by_location_df) %>% distinct()
 
     output_result <- output_result  %>% left_join(calculation_type) %>% mutate(
-      analysis_type = case_when(is.na(choice) ~ "mean",T~ analysis_type)
+      analysis_type = case_when(is.na(choice) ~ "mean",
+                                main_variable %in% sm_parent_child_all$sm_child ~ "prop_select_multiple",
+                                T~ analysis_type)
     )
 
     if(length(disag) == 1){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
