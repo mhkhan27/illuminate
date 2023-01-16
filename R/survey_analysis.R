@@ -338,7 +338,7 @@ survey_analysis<-function(df,
   calculation_type <- calculation_type %>%
     pivot_longer(cols = names(calculation_type),
                  names_to = "main_variable",values_to = "type") %>% mutate(
-                   type = case_when(main_variable %in% sm_parent_child_all$sm_parent ~ "logical", T~ type)
+                   type = case_when(main_variable %in% sm_parent_child_all$sm_child ~ "logical", T~ type)
                  ) %>% mutate(analysis_type = case_when(type %in% c("numeric","integer") ~ "mean",
                                                         type == "logical" ~ "prop_select_multiple",
                                                         T~ "prop_select_one")) %>% select(-type)
@@ -447,7 +447,7 @@ survey_analysis<-function(df,
 
     output_result <- output_result  %>% left_join(calculation_type) %>% mutate(
       analysis_type = case_when(is.na(choice) ~ "mean",
-                                main_variable %in% sm_parent_child_all$sm_child ~ "prop_select_multiple",
+                                main_variable %in% sm_parent_child_all$sm_parent ~ "prop_select_multiple",
                                 T~ analysis_type)
     )
 
