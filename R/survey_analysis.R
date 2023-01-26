@@ -142,7 +142,9 @@ survey_collapse_binary_long<- function(df,
       vec_n<-df_n %>%
         summarise(n_unweighted= unweighted(n())) %>%
         filter(!!sym(x)==T) %>%
-        pull(n_unweighted)}
+        pull(n_unweighted)
+
+    }
 
     if(!is.logical(df$variables[[x]])){
       vec_n<-df %>%
@@ -153,7 +155,7 @@ survey_collapse_binary_long<- function(df,
       vec_m<-df %>%
         # mutate(!!x := !is.na(!!sym(x))) %>%
         summarise(median= survey_median(!!sym(x),na.rm =T,vartype = "ci")) %>%
-        pull(median,median_upp,median_low)
+        pull(median)
 
     }
     subset_names<- "dummy"
@@ -163,9 +165,6 @@ survey_collapse_binary_long<- function(df,
   if(length(vec_n)==0){
     vec_n<-0
   }
-  if(length(vec_m)==0){
-    vec_m<-0
-  }
 
 
   res<-df %>%
@@ -173,8 +172,11 @@ survey_collapse_binary_long<- function(df,
       stat=survey_mean(!!sym(x),na.rm=TRUE,vartype="ci"),
     ) %>%
     mutate(variable_val=x) %>% # mean for intger
-    cbind(n_unweighted=vec_n) |> cbind(median = vec_m)
+    cbind(n_unweighted=vec_n)
 
+  if(!is.logical(df$variables[[x]])){
+    res <- res  |> cbind(median = vec_m)
+  }
 
   if(!is.null(disag)){
     class(disag)
@@ -312,15 +314,15 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
 
 
 survey_analysis<-function(df,
-                           weights = F,
-                           weight_column =NULL,
-                           strata ,
-                           vars_to_analyze=NULL,
-                           disag=NULL,
-                           na_val,
-                           sm_sep="/",
-                           question_lable = F,
-                           kobo_path = NULL){
+                          weights = F,
+                          weight_column =NULL,
+                          strata ,
+                          vars_to_analyze=NULL,
+                          disag=NULL,
+                          na_val,
+                          sm_sep="/",
+                          question_lable = F,
+                          kobo_path = NULL){
 
 
 
@@ -467,7 +469,7 @@ survey_analysis<-function(df,
     )
 
     if(length(disag) == 1){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
-                         subset_1_name, " ~/~ " , subset_1_val))}
+                                                                                         subset_1_name, " ~/~ " , subset_1_val))}
 
     if(length(disag) == 2){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
                                                                                          subset_1_name, " ~/~ " , subset_1_val, " ~/~ ",subset_2_name, " ~/~ " , subset_2_val))}
@@ -475,7 +477,7 @@ survey_analysis<-function(df,
 
     if(length(disag) == 3){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
                                                                                          subset_1_name, " ~/~ " , subset_1_val, " ~/~ ",subset_2_name, " ~/~ " , subset_2_val,
-                                                                                        " ~/~ ",subset_3_name, " ~/~ " , subset_3_val))}
+                                                                                         " ~/~ ",subset_3_name, " ~/~ " , subset_3_val))}
 
 
     if(length(disag) == 4){output_result <-  output_result %>% mutate(key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
@@ -507,7 +509,7 @@ survey_analysis<-function(df,
       key_index = paste0(analysis_type," @/@ ", main_variable," ~/~ ",choice, " @/@ ",
                          "NA ~/~ NA")
     ) %>% relocate(analysis_type,.after = last_col()) %>% relocate(key_index,.after = last_col())
-    }
+  }
 
   output_result
 }
