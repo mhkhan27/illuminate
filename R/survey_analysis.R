@@ -157,7 +157,7 @@ survey_collapse_binary_long<- function(df,
 
   res<-df %>%
     summarise(
-      `mean/pct`=survey_mean(!!sym(x),na.rm=TRUE,vartype="ci"),
+      stat=survey_mean(!!sym(x),na.rm=TRUE,vartype="ci"),
     ) %>%
     mutate(variable_val=x) %>% # mean for intger
     cbind(n_unweighted=vec_n)
@@ -244,7 +244,7 @@ survey_collapse_categorical_long<- function(df, x,disag=NULL,na_val=NA_character
     group_by(!!!group_by_vars,.drop=F)
   res<-df %>%
     summarise(
-      `mean/pct`=survey_mean(na.rm=TRUE,vartype="ci"),
+      stat=survey_mean(na.rm=TRUE,vartype="ci"),
       n_unweighted= unweighted(n())
     ) %>%
     mutate(variable=x) %>%
