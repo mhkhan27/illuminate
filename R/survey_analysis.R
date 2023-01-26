@@ -90,8 +90,6 @@ auto_sm_parent_child<- function(df, sm_sep="."){
 #'
 #' @export
 
-
-
 survey_collapse_binary_long<- function(df,
                                        x,
                                        disag=NULL,
@@ -124,9 +122,14 @@ survey_collapse_binary_long<- function(df,
     if(!is.logical(df$variables[[x]])) {
       df_n<-df %>%
         group_by(!!!disag_syms,.drop=FALSE)
+
       vec_n<-df_n %>%
         summarise(n_unweighted= unweighted(n())) %>%
         pull(n_unweighted)
+
+      vec_m<-df_n %>%
+        summarise(median= survey_median(!!sym(x),na.rm =T,vartype = "ci")) %>%
+        pull(median)
 
 
     }
@@ -140,11 +143,18 @@ survey_collapse_binary_long<- function(df,
         summarise(n_unweighted= unweighted(n())) %>%
         filter(!!sym(x)==T) %>%
         pull(n_unweighted)}
+
     if(!is.logical(df$variables[[x]])){
       vec_n<-df %>%
         mutate(!!x := !is.na(!!sym(x))) %>%
         summarise(n_unweighted= unweighted(n())) %>%
         pull(n_unweighted)
+
+      vec_m<-df %>%
+        # mutate(!!x := !is.na(!!sym(x))) %>%
+        summarise(median= survey_median(!!sym(x),na.rm =T,vartype = "ci")) %>%
+        pull(median,median_upp,median_low)
+
     }
     subset_names<- "dummy"
     subset_vals<- "dummy"
@@ -153,6 +163,9 @@ survey_collapse_binary_long<- function(df,
   if(length(vec_n)==0){
     vec_n<-0
   }
+  if(length(vec_m)==0){
+    vec_m<-0
+  }
 
 
   res<-df %>%
@@ -160,7 +173,7 @@ survey_collapse_binary_long<- function(df,
       stat=survey_mean(!!sym(x),na.rm=TRUE,vartype="ci"),
     ) %>%
     mutate(variable_val=x) %>% # mean for intger
-    cbind(n_unweighted=vec_n)
+    cbind(n_unweighted=vec_n) |> cbind(median = vec_m)
 
 
   if(!is.null(disag)){
@@ -198,6 +211,8 @@ survey_collapse_binary_long<- function(df,
 
 
 }
+
+
 
 
 
