@@ -9,6 +9,7 @@ check_cleaning_log(
   df_uuid,
   cl,
   cl_change_type_col,
+  change_type_for_change_response = "change_response",
   cl_change_col,
   cl_uuid,
   cl_new_val
@@ -22,6 +23,8 @@ check_cleaning_log(
 \item{cl}{cleaning log (data.frame)}
 
 \item{cl_change_type_col}{column in cleaning log which specifies change type to be made}
+
+\item{change_type_for_change_response}{values in change type column which should be changed to a new value.}
 
 \item{cl_change_col}{column in cleaning log which specifies data set column to change}
 

@@ -9,6 +9,10 @@ implement_cleaning_log(
   df_uuid,
   cl,
   cl_change_type_col,
+  change_type_for_change_response = "change_response",
+  change_type_for_blank_response = "blank_response",
+  change_type_for_no_change = "no_action",
+  change_type_for_deletion = "remove_survey",
   cl_change_col,
   cl_uuid,
   cl_new_val
@@ -22,6 +26,14 @@ implement_cleaning_log(
 \item{cl}{cleaning log (data.frame)}
 
 \item{cl_change_type_col}{column in cleaning log which specifies change type to be made}
+
+\item{change_type_for_change_response}{values in change type column which should be changed to a new value.}
+
+\item{change_type_for_blank_response}{values in change type column which should be blank (NA).}
+
+\item{change_type_for_no_change}{values in change type column which should NOT be changed to a new value.}
+
+\item{change_type_for_deletion}{values in change type column which should be deleted from the data.}
 
 \item{cl_change_col}{column in cleaning log which specifies data set column to change}
 
