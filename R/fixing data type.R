@@ -87,18 +87,6 @@ if(remove_all_NA_col ==T){
   return(df)
 }
 
-# a <- a %>% mutate(
-#   name = NA_character_
-# )
-#
-# aaa <- fix_data_type(df = a,na.string = c("12s",1,13.0),remove_all_NA_col = T,character_cols = "a")
-#
-# aaa$a %>% class()
-
-
-
-
-
 
 
 

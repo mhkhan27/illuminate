@@ -13,27 +13,6 @@ illuminate is designed for making the data analysis easy and less time
 consuming. The package is based on tidyr, dplyr,srvyr packages. Most
 common functions are-
 
-## ***1. Read and write file***
-
--   `read_sheets()` read all sheet in an excel file and makes sure that
-    data stores in appropriate data type.
--   `write_formatted_excel()` write formatted excel.
-
-## ***2. Data cleanining***
-
--   `outlier_checks()`
--   `others_checks()`
--   `survey_duration_from_audit()`
-
-## ***3. Clearting cleanining log***
-
-## ***4. Implementing cleanining log***
-
-## ***5. Data Analysis***
-
--   `survey_analysis()` calculate the weighted mean/proporation and
-    unweighted count for all existing variable is the dataset.
-
 ## Installation
 
 You can install the development version from
@@ -44,16 +23,95 @@ You can install the development version from
 devtools::install_github("mhkhan27/illuminate")
 ```
 
-## EXAMPLE :: Survey analysis
+## ***1. Read and write file***
+
+- `read_sheets()` read all sheet in an excel file and makes sure that
+  data stores in appropriate data type.
+- `write_formatted_excel()` write formatted excel.
+
+## ***2. Data cleaning***
+
+- `outlier_checks()`
+- `others_checks()`
+- `survey_duration_from_audit()`
+- `logical_checks()`
+
+## ***3. Creating cleaning log***
+
+## ***4. Implementing cleaning log***
+
+- `implementin_cleaning_log()` Once you have raw data and cleaning
+  log,you can use `implementin_cleaning_log()` function to get the clean
+  data. Note that you need at least three column in your cleaning log to
+  run the function which are - 1. uuid, 2. question name which must be
+  matched with the data set and 3- a column specifying the what kind of
+  change you are expecting. It is recommend to run the
+  check_cleaning_log() beforehand which checks the cleaning log
+  accuracy. See the documentation with `?check_cleaning_log()` and
+  `?implementing_cleaning_log()` for more details.
+
+#### EXAMPLE:: Implementing cleaning log
+
+##### Step 1:: Call libraries and read data
+
+``` r
+library(illuminate)
+library(tidyverse)
+
+cleaning_log <- read.csv("data/01_implementing_cleaning_log/cleaning_log.csv")
+data <- read.csv("data/01_implementing_cleaning_log/data.csv")
+```
+
+##### Step 2:: Check the cleaning log
+
+`check_cleaning_log()` will flag any potential issue(s) within the
+cleaning log. If there is no issue then there will be a messege saying
+**no issues in cleaning log found**
+
+``` r
+check_cleaning_log(df = data,
+                   df_uuid = "X_uuid",
+                   cl = cleaning_log,
+                   cl_change_type_col = "changed",
+                   change_type_for_change_response = "Changed",
+                   cl_change_col = "question.name",cl_uuid = "X_uuid",cl_new_val = "new.value"
+)
+```
+
+##### Step 3:: Getting the clean data from cleaning log
+
+`implement_cleaning_log()` will apply the cleaning log on raw data and
+will provide the clean data.
+
+``` r
+clean_data <- implement_cleaning_log(df = data,
+                       df_uuid = "X_uuid",
+                       cl = cleaning_log,
+                       cl_change_type_col = "changed",
+                       change_type_for_change_response = "Changed",
+                       change_type_for_blank_response = NA,
+                       change_type_for_no_change = c("No_Changes","Confirmed"),
+                       change_type_for_deletion = c("NOT_ANS_PELASE_REMOVE", "From must be deleted"),
+                       cl_change_col = "question.name",cl_uuid = "X_uuid",cl_new_val = "new.value"
+                       )
+```
+
+## ***5. Data Analysis***
+
+- `survey_analysis()` calculate the weighted mean/proporation/median and
+  unweighted count for all existing variable is the dataset.
+
+### EXAMPLE :: Survey analysis
 
 ##### Step 0:: Call libraries
 
 ``` r
-library(srvyr)
 library(illuminate)
 library(tidyverse)
 library(purrr)
+library(readxl)
 library(openxlsx)
+library(srvyr)
 ```
 
 ##### Step 1:: Read data
@@ -118,7 +176,8 @@ overall_analysis <- survey_analysis(df = data_up,weights = T,weight_column = "su
 ##### Step 3.2:: Unweighted analysis
 
 ``` r
-overall_analysis <- survey_analysis(df = data_up,weights = F)
+columns_to_analyze <- data_up[20:50] %>% names() 
+overall_analysis <- survey_analysis(df = data_up,weights = F,vars_to_analyze = columns_to_analyze )
 ```
 
 ##### Step 3.3:: Weighted and disaggregated by gender analysis
@@ -126,10 +185,10 @@ overall_analysis <- survey_analysis(df = data_up,weights = F)
 Use `?survey_analysis()` to know about the perameters.
 
 ``` r
-columns_to_analyze <- data_up[20:30] %>% names() # dummy code. Please define the name of the columns which you would like to analyze. Default will analyze all the variables exist in the dataset. 
+# dummy code. Please define the name of the columns which you would like to analyze. Default will analyze all the variables exist in the dataset. 
 
 analysis_by_gender <-  survey_analysis(df = data_up,weights = T,weight_column = "survey_weight",vars_to_analyze = columns_to_analyze,
-                                       strata = "governorate1",disag = "gender_speaker")
+                                       strata = "governorate1",disag = c("va_child_income","gender_speaker"))
 ```
 
 ##### Step 4:: Export with `write_formatted_excel()`

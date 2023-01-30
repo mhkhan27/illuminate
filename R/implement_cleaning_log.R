@@ -3,6 +3,10 @@
 #' @param df_uuid column in raw data with uuid
 #' @param cl cleaning log (data.frame)
 #' @param cl_change_type_col column in cleaning log which specifies change type to be made
+#' @param change_type_for_change_response values in change type column which should be changed to a new value.
+#' @param change_type_for_blank_response values in change type column which should be blank (NA).
+#' @param change_type_for_no_change values in change type column which should NOT be changed to a new value.
+#' @param change_type_for_deletion values in change type column which should be deleted from the data.
 #' @param cl_change_col column in cleaning log which specifies data set column to change
 #' @param cl_uuid uuid in cleaning log
 #' @param cl_new_val cleaning log column specifying the new correct value
@@ -14,21 +18,39 @@ implement_cleaning_log <- function(df,
                                    df_uuid,
                                    cl,
                                    cl_change_type_col,
+                                   change_type_for_change_response = "change_response",
+                                   change_type_for_blank_response = "blank_response",
+                                   change_type_for_no_change = "no_action",
+                                   change_type_for_deletion = "remove_survey",
                                    cl_change_col,
                                    cl_uuid,cl_new_val){
+
+
+  all_type <- c(change_type_for_change_response,change_type_for_blank_response,change_type_for_no_change,change_type_for_deletion)
+
+  cl <- cl |> dplyr::mutate(
+    change_type_created_f = case_when(!!sym(cl_change_type_col) %in% change_type_for_change_response ~ "change_response",
+                                      !!sym(cl_change_type_col) %in% change_type_for_blank_response ~ "blank_response",
+                                      !!sym(cl_change_type_col) %in% change_type_for_no_change ~ "no_action",
+                                      !!sym(cl_change_type_col) %in% change_type_for_deletion ~ "remove_survey"))
+
+  assertthat::assert_that(all(cl[[cl_change_type_col]] %in% all_type),
+                          msg="Error:You have missing change_type option(s)")
+
+
   cl[[cl_change_type_col]]<-cl[[cl_change_type_col]] %>% tolower()
 
   cl[[cl_change_col]]<-cl[[cl_change_col]] %>% trimws()
   cl[[cl_new_val]]<-cl[[cl_new_val]] %>% trimws()
   cl_change_type_options<- c("change_response",  "remove_survey", "blank_response","no_action")
   # cl_change_response<- cl %>% filter(!!sym(cl_change_type_col) %in% c( cl_change_type_options[1]))
-  cl_change_response<- cl %>% filter(!!sym(cl_change_type_col) %in% c( cl_change_type_options[1],cl_change_type_options[3]))
+  cl_change_response<- cl %>% filter(change_type_created_f %in% c( cl_change_type_options[1],cl_change_type_options[3]))
   cl_change_response<- cl_change_response %>%
     mutate(
-      !!cl_new_val:=ifelse(!!sym(cl_change_type_col)==cl_change_type_options[3],NA,!!sym(cl_new_val))
+      !!cl_new_val:=ifelse(change_type_created_f==cl_change_type_options[3],NA,!!sym(cl_new_val))
     )
   # cl_change_type_options[3]
-  cl_remove_survey<- cl %>% filter(!!sym(cl_change_type_col) == cl_change_type_options[2])
+  cl_remove_survey<- cl %>% filter(change_type_created_f == cl_change_type_options[2])
   # cl_blank_response<- cl %>% filter(!!sym(cl_change_type_col))
 
   if(all(cl_change_response[[cl_change_col]] %in% colnames(df))==F){
@@ -45,8 +67,7 @@ implement_cleaning_log <- function(df,
                           msg="Error: Make sure all names in cl_change_col values in the cleaning log are in dataset")
   assertthat::assert_that(all(cl[[cl_uuid]] %in% c(df[[df_uuid]],"all_data")),
                           msg="Error:Make sure all uuids in cleaing log are in data set")
-  assertthat::assert_that(all(cl[[cl_change_type_col]] %in% cl_change_type_options),
-                          msg="Error:You have written change_type options which are invalid")
+
   if(nrow(cl_change_response)>0){
     for(i in 1:nrow(cl_change_response)){
       print(cl_change_response[[cl_change_col]][i])
@@ -70,14 +91,12 @@ implement_cleaning_log <- function(df,
 }
 
 
-
-
-
 #' check cleaning log
 #' @param df raw data (data.frame)
 #' @param df_uuid column in raw data with uuid
 #' @param cl cleaning log (data.frame)
 #' @param cl_change_type_col column in cleaning log which specifies change type to be made
+#' @param change_type_for_change_response values in change type column which should be changed to a new value.
 #' @param cl_change_col column in cleaning log which specifies data set column to change
 #' @param cl_uuid uuid in cleaning log
 #' @param cl_new_val cleaning log column specifying the new correct value
@@ -89,13 +108,14 @@ check_cleaning_log <- function(df,
                                df_uuid,
                                cl,
                                cl_change_type_col,
+                               change_type_for_change_response = "change_response",
                                cl_change_col,
                                cl_uuid,cl_new_val){
   cl[[cl_change_col]]<-cl[[cl_change_col]] %>% trimws()
   cl[[cl_new_val]]<-cl[[cl_new_val]] %>% trimws()
 
   cl_change_col_prob_df<-cl %>%
-    filter(!!sym(cl_change_type_col)=="change_response") %>%
+    filter(!!sym(cl_change_type_col) %in% change_type_for_change_response) %>%
     mutate(cl_prob="question_does_not_exist") %>%
     filter(!!sym(cl_change_col) %in% colnames(df)==FALSE) %>%
     select(cl_prob,everything())
