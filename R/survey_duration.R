@@ -48,7 +48,7 @@ survey_duration_from_audit<-function(data,
     uuid <- ((all_uuid_df_filtered %>% dplyr::filter(all_paths ==i))$all_uuids)[1]
 
 
-    audit_yes[[uuid]] <- read.table(unz(zip_file,i),header=T, quote="\"", sep=",")
+    audit_yes[[uuid]] <- read.table(unz(audit_zip_path,i),header=T, quote="\"", sep=",")
   }
 
 
